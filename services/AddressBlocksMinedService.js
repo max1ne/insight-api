@@ -271,14 +271,14 @@ AddressBlocksMinedService.prototype.processBlock = function (blockHeight, next) 
 };
 
 AddressBlocksMinedService.prototype.getBlockReward = function(height) {
-  var halvings = Math.floor(height / 840000);
+  var halvings = Math.floor(height / (24*60*365));
   // Force block reward to zero when right shift is undefined.
   if (halvings >= 64) {
     return 0;
   }
 
   // Subsidy is cut in half every 840000 blocks which will occur approximately every 4 years.
-  var subsidy = new BN(12.5 * 1e8);
+  var subsidy = new BN(8 * 1e8);
   subsidy = subsidy.shrn(halvings);
 
   return parseInt(subsidy.toString(10));

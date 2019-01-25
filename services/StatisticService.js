@@ -1205,7 +1205,7 @@ StatisticService.prototype.getPoolsLastHour = function (nextCb) {
 };
 StatisticService.prototype.getBlockReward = function (height, callback) {
     // Subsidy is cut in half every 840000 blocks which will occur approximately every 2.5 years.
-    var halvings = Math.floor(height / 840000);
+    var halvings = Math.floor(height / (24*365*60));
 
     // Force block reward to zero when right shift is undefined.
     if (halvings >= 64) {
@@ -1215,10 +1215,10 @@ StatisticService.prototype.getBlockReward = function (height, callback) {
     // Mining slow start
     // The subsidy is ramped up linearly, skipping the middle payout of
     // MAX_SUBSIDY/2 to keep the monetary curve consistent with no slow start.
-    if (height == 2 || height == 3 || height == 4) {
-        var subsidy = new BN(400000)
+    if (height == 1) {
+        var subsidy = new BN(41522230)
       } else {
-        var subsidy = new BN(12.5 * 1e8)
+        var subsidy = new BN(8 * 1e8)
       }
 
     subsidy = subsidy.shrn(halvings);
@@ -1229,7 +1229,7 @@ StatisticService.prototype.getBlockReward = function (height, callback) {
 
 StatisticService.prototype.getBlockRewardr = function (height) {
     // Subsidy is cut in half every 657850 blocks which will occur approximately every 2.5 years.
-    var halvings = Math.floor(height / 840000);
+    var halvings = Math.floor(height / (24*365*60));
 
     // Force block reward to zero when right shift is undefined.
     if (halvings >= 64) {
@@ -1239,10 +1239,10 @@ StatisticService.prototype.getBlockRewardr = function (height) {
     // Mining slow start
     // The subsidy is ramped up linearly, skipping the middle payout of
     // MAX_SUBSIDY/2 to keep the monetary curve consistent with no slow start.
-    if (height == 2 || height == 3 || height == 4) {
-        var subsidy = new BN(400000)
+    if (height == 1) {
+        var subsidy = new BN(41522230)
       } else {
-        var subsidy = new BN(12.5 * 1e8)
+        var subsidy = new BN(8 * 1e8)
       }
 
     subsidy = subsidy.shrn(halvings);
@@ -1267,7 +1267,7 @@ StatisticService.prototype.getPoolInfo = function (paddress) {
 StatisticService.prototype.getTotalSupply = function () {
     var blockHeight = this.node.services.bitcoind.height;
 
-    var supply = (new BigNumber(0)).plus((blockHeight) * 12.5).plus(120000).minus(37.5); //minus slowstart
+    var supply = (new BigNumber(0)).plus((blockHeight) * 8).plus(41522230);
 
     return supply;
 };
