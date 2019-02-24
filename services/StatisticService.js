@@ -439,7 +439,7 @@ StatisticService.prototype._getBlockInfo = function (blockHeight, next) {
 
         var reward = self.getBlockRewardr(blockHeight);
         dataFlow.transaction.outputs.forEach(function (output) {
-            if (output.satoshis > (reward * 0.8)) {
+            if (output.satoshis > (reward * 0.6)) {
                 dataFlow.minedBy = output.address;
             }
         });
@@ -1207,24 +1207,24 @@ StatisticService.prototype.getBlockReward = function (height, callback) {
     // Subsidy is cut in half every 840000 blocks which will occur approximately every 2.5 years.
     var halvings;
     if (height <= 5000) {
-      halvings = 0
+        halvings = 0
     } else {
-      halvings = Math.floor((height - (5000)) / 840000);
+        halvings = Math.floor((height - (5000)) / 840000);
     }
     // Force block reward to zero when right shift is undefined.
     if (halvings >= 64) {
         return 0;
     }
-    
+
     // Mining slow start
     // The subsidy is ramped up linearly, skipping the middle payout of
     // MAX_SUBSIDY/2 to keep the monetary curve consistent with no slow start.
     if (height < 2500) {
-      var subsidy = new BN(12.5 * 1e8 * (height - 1) / 5000)
+        var subsidy = new BN(12.5 * 1e8 * (height - 1) / 5000)
     } else if (height < 5000) {
-      var subsidy = new BN(12.5 * 1e8 * height / 5000)
+        var subsidy = new BN(12.5 * 1e8 * height / 5000)
     } else {
-      var subsidy = new BN(12.5 * 1e8)
+        var subsidy = new BN(12.5 * 1e8)
     }
 
     subsidy = subsidy.shrn(halvings);
@@ -1237,9 +1237,9 @@ StatisticService.prototype.getBlockRewardr = function (height) {
     // Subsidy is cut in half every 657850 blocks which will occur approximately every 2.5 years.
     var halvings;
     if (height <= 5000) {
-      halvings = 0
+        halvings = 0
     } else {
-      halvings = Math.floor((height - (5000)) / 840000);
+        halvings = Math.floor((height - (5000)) / 840000);
     }
     // Force block reward to zero when right shift is undefined.
     if (halvings >= 64) {
@@ -1250,11 +1250,11 @@ StatisticService.prototype.getBlockRewardr = function (height) {
     // The subsidy is ramped up linearly, skipping the middle payout of
     // MAX_SUBSIDY/2 to keep the monetary curve consistent with no slow start.
     if (height < 2500) {
-      var subsidy = new BN(12.5 * 1e8 * (height - 1) / 5000)
+        var subsidy = new BN(12.5 * 1e8 * (height - 1) / 5000)
     } else if (height < 5000) {
-      var subsidy = new BN(12.5 * 1e8 * height / 5000)
+        var subsidy = new BN(12.5 * 1e8 * height / 5000)
     } else {
-      var subsidy = new BN(12.5 * 1e8)
+        var subsidy = new BN(12.5 * 1e8)
     }
     subsidy = subsidy.shrn(halvings);
 
@@ -1263,9 +1263,11 @@ StatisticService.prototype.getBlockRewardr = function (height) {
 
 StatisticService.prototype.getPoolInfo = function (paddress) {
     for (var k in this.poolStrings) {
-        if (paddress.toString().match(k)) {
-            this.poolStrings[k].address = paddress;
-            return this.poolStrings[k];
+        if (paddress != null) {
+            if (paddress.toString().match(k)) {
+                this.poolStrings[k].address = paddress;
+                return this.poolStrings[k];
+            }
         }
     }
     return {};
