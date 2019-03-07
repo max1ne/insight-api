@@ -271,15 +271,68 @@ AddressBlocksMinedService.prototype.processBlock = function (blockHeight, next) 
 };
 
 AddressBlocksMinedService.prototype.getBlockReward = function(height) {
-  var halvings = Math.floor(height / 840000);
-  // Force block reward to zero when right shift is undefined.
-  if (halvings >= 64) {
-    return 0;
-  }
-
-  // Subsidy is cut in half every 840000 blocks which will occur approximately every 4 years.
-  var subsidy = new BN(12.5 * 1e8);
-  subsidy = subsidy.shrn(halvings);
+    var subsidy;
+    if (height == 0) {
+      subsidy = new BN(0);
+    } else if (height == 1) {
+      subsidy = new BN(4000000);
+    } else if (height == 80185) {
+      subsidy = new BN(665600);
+    } else if (height < 123840) {
+      subsidy = new BN(128);
+    } else if (height < 178378) {
+      subsidy = new BN(64);
+    } else if (height < 181378) {
+      subsidy = new BN(56);
+    } else if (height < 184376) {
+      subsidy = new BN(48);
+    } else if (height < 187378) {
+      subsidy = new BN(40);
+    } else if (height < 197378) {
+      subsidy = new BN(32);
+    } else if (height < 207378) {
+      subsidy = new BN(28);
+    } else if (height < 217378) {
+      subsidy = new BN(24);
+    } else if (height < 227378) {
+      subsidy = new BN(22);
+    } else if (height < 237378) {
+      subsidy = new BN(20);
+    } else if (height < 247378) {
+      subsidy = new BN(18);
+    } else if (height < 287378) {
+      subsidy = new BN(16);
+    } else if (height < 327378) {
+      subsidy = new BN(15);
+    } else if (height < 367378) {
+      subsidy = new BN(14);
+    } else if (height < 407378) {
+      subsidy = new BN(13);
+    } else if (height < 447378) {
+      subsidy = new BN(12);
+    } else if (height < 487378) {
+      subsidy = new BN(11);
+    } else if (height < 527378) {
+      subsidy = new BN(10);
+    } else if (height < 557378) {
+      subsidy = new BN(5);
+    } else if (height < 1207378) {
+      subsidy = new BN(4);
+    } else if (height < 1707378) {
+      subsidy = new BN(3);
+    } else if (height < 2207378) {
+      subsidy = new BN(2);
+    } else if (height < 2707378) {
+      subsidy = new BN(1);
+    } else if (height < 3707378) {
+      subsidy = new BN(0.5);
+    } else if (height < 4707378) {
+      subsidy = new BN(0.25);
+    } else if (height < 5707378) {
+      subsidy = new BN(0.125);
+    } else {
+      subsidy = new BN(0);
+    }
 
   return parseInt(subsidy.toString(10));
 };

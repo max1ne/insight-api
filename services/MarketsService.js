@@ -31,7 +31,7 @@ util.inherits(MarketsService, EventEmitter);
 MarketsService.prototype._updateInfo = function () {
     var self = this;
     return request.get({
-        url: 'https://coinlib.io/api/v1/coin?key=ef17eaaef4e1f6f2&pref=USD&symbol=ZCL',
+        url: 'https://coinlib.io/api/v1/coin?key=ef17eaaef4e1f6f2&pref=USD&symbol=SAFE',
         json: true
     }, function (err, response, body) {
 
