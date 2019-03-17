@@ -9,11 +9,12 @@ function MarketsService(options) {
     this.common = new Common({ log: options.node.log });
 
     this.info = {
-        price: 0,
+        price_usd: 0,
         price_btc: 0,
         market_cap_usd: 0,
-        total_volume_24h: 0,
-        delta_24h: 0
+        available_supply: 0,
+        "24h_volume_usd": 0,
+        percent_change_24h:0
     };
 
     this._updateInfo();
@@ -28,30 +29,32 @@ function MarketsService(options) {
 
 util.inherits(MarketsService, EventEmitter);
 
-MarketsService.prototype._updateInfo = function () {
+MarketsService.prototype._updateInfo = function() {
     var self = this;
     return request.get({
-        url: 'https://coinlib.io/api/v1/coin?key=ef17eaaef4e1f6f2&pref=USD&symbol=ZCL',
+        url: 'https://api.coinmarketcap.com/v1/ticker/hush',
         json: true
     }, function (err, response, body) {
 
         if (err) {
-            return self.common.log.error('Coinlib error', err);
+            return self.common.log.error('Coinmarketcap error', err);
         }
 
         if (response.statusCode != 200) {
-            return self.common.log.error('Coinlib error status code', response.statusCode);
+            return self.common.log.error('Coinmarketcap error status code', response.statusCode);
         }
 
-        if (body) {
+        if (body && _.isArray(body) && body.length) {
             var needToTrigger = false;
 
-            self.info.price = body.price;
-            self.info.price_btc = body.markets[0].price;
-            self.info.market_cap_usd = body.market_cap;
-            self.info.total_volume_24h = body.total_volume_24h;
-            self.info.delta_24h = body.delta_24h;
-            needToTrigger = true;
+            ['price_usd', 'price_btc', 'market_cap_usd', 'available_supply', '24h_volume_usd', 'percent_change_24h'].forEach(function (param) {
+
+                if (self.info[param] !== body[0][param]) {
+                    self.info[param] = body[0][param];
+                    needToTrigger = true;
+                }
+
+            });
 
             if (needToTrigger) {
                 self.emit('updated', self.info);
@@ -60,7 +63,7 @@ MarketsService.prototype._updateInfo = function () {
             return self.info;
         }
 
-        return self.common.log.error('Coinlib error body', body);
+        return self.common.log.error('Coinmarketcap error body', body);
 
     });
 

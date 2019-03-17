@@ -86,8 +86,8 @@ AddressBalanceService.prototype.updateRicherThanCache = function (next) {
     }, function (callback) {
         return async.eachSeries([1, 100, 1000, 10000, 100000, 1000000, 10000000], function (greaterThanUsd, callback) {
 
-            if (dataFlow.info.price > 0) {
-                return self.addressBalanceRepository.getCountAddressesGreaterThan(greaterThanUsd / dataFlow.info.price, function (err, result) {
+            if (dataFlow.info.price_usd > 0) {
+                return self.addressBalanceRepository.getCountAddressesGreaterThan(greaterThanUsd / dataFlow.info.price_usd, function (err, result) {
 
                     if (err) {
                         return callback(err);

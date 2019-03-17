@@ -522,7 +522,7 @@ Sample output:
   market_cap_usd: "36072365.0"
   percent_change_24h: "-0.25"
   price_btc: "0.00000383"
-  price: "0.0294763"
+  price_usd: "0.0294763"
 }
 ```
 ### `zelcash` room: 

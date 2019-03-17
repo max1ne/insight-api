@@ -1204,59 +1204,77 @@ StatisticService.prototype.getPoolsLastHour = function (nextCb) {
 
 };
 StatisticService.prototype.getBlockReward = function (height, callback) {
-    // Subsidy is cut in half every 840000 blocks which will occur approximately every 2.5 years.
-    var halvings;
-    if (height <= 5000) {
-        halvings = 0
+    var subsidy;
+
+    if (height == 0) {
+      subsidy = new BN(0);
+    } else if (height < 200001) {
+      subsidy = new BN(12500 * 1e8);
+    } else if (height < 300001) {
+      subsidy = new BN(2500 * 1e8);
+    } else if (height < 400001) {
+      subsidy = new BN(1250 * 1e8);
+    } else if (height < 500001) {
+      subsidy = new BN(625 * 1e8);
+    } else if (height < 600001) {
+      subsidy = new BN(312.5 * 1e8);
+    } else if (height < 700001) {
+      subsidy = new BN(156.25 * 1e8);
+    } else if (height < 800001) {
+      subsidy = new BN(78 * 1e8);
+    } else if (height < 900001) {
+      subsidy = new BN(39 * 1e8);
+    } else if (height < 1000001) {
+      subsidy = new BN(19.5 * 1e8);
+    } else if (height < 3102401) {
+      subsidy = new BN(8 * 1e8);
     } else {
-        halvings = Math.floor((height - (5000)) / 840000);
-    }
-    // Force block reward to zero when right shift is undefined.
-    if (halvings >= 64) {
+      var halvings = Math.floor(height - 3102400 / 2102400);
+      if (halvings >= 64) {
         return 0;
+      }
+      subsidy = new BN(4 * 1e8);
+      subsidy = subsidy.shrn(halvings);
     }
 
-    // Mining slow start
-    // The subsidy is ramped up linearly, skipping the middle payout of
-    // MAX_SUBSIDY/2 to keep the monetary curve consistent with no slow start.
-    if (height < 2500) {
-        var subsidy = new BN(12.5 * 1e8 * (height - 1) / 5000)
-    } else if (height < 5000) {
-        var subsidy = new BN(12.5 * 1e8 * height / 5000)
-    } else {
-        var subsidy = new BN(12.5 * 1e8)
-    }
-
-    subsidy = subsidy.shrn(halvings);
     var sub;
     sub = parseInt(subsidy.toString(10));
     callback(null, sub);
 };
 
 StatisticService.prototype.getBlockRewardr = function (height) {
-    // Subsidy is cut in half every 657850 blocks which will occur approximately every 2.5 years.
-    var halvings;
-    if (height <= 5000) {
-        halvings = 0
-    } else {
-        halvings = Math.floor((height - (5000)) / 840000);
-    }
-    // Force block reward to zero when right shift is undefined.
-    if (halvings >= 64) {
-        return 0;
-    }
+    var subsidy;
 
-    // Mining slow start
-    // The subsidy is ramped up linearly, skipping the middle payout of
-    // MAX_SUBSIDY/2 to keep the monetary curve consistent with no slow start.
-    if (height < 2500) {
-        var subsidy = new BN(12.5 * 1e8 * (height - 1) / 5000)
-    } else if (height < 5000) {
-        var subsidy = new BN(12.5 * 1e8 * height / 5000)
+    if (height == 0) {
+      subsidy = new BN(0);
+    } else if (height < 200001) {
+      subsidy = new BN(12500 * 1e8);
+    } else if (height < 300001) {
+      subsidy = new BN(2500 * 1e8);
+    } else if (height < 400001) {
+      subsidy = new BN(1250 * 1e8);
+    } else if (height < 500001) {
+      subsidy = new BN(625 * 1e8);
+    } else if (height < 600001) {
+      subsidy = new BN(312.5 * 1e8);
+    } else if (height < 700001) {
+      subsidy = new BN(156.25 * 1e8);
+    } else if (height < 800001) {
+      subsidy = new BN(78 * 1e8);
+    } else if (height < 900001) {
+      subsidy = new BN(39 * 1e8);
+    } else if (height < 1000001) {
+      subsidy = new BN(19.5 * 1e8);
+    } else if (height < 3102401) {
+      subsidy = new BN(8 * 1e8);
     } else {
-        var subsidy = new BN(12.5 * 1e8)
+      var halvings = Math.floor(height - 3102400 / 2102400);
+      if (halvings >= 64) {
+        return 0;
+      }
+      subsidy = new BN(4 * 1e8);
+      subsidy = subsidy.shrn(halvings);
     }
-    subsidy = subsidy.shrn(halvings);
 
     return parseInt(subsidy.toString(10));
 };
