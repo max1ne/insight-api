@@ -278,7 +278,7 @@ AddressBlocksMinedService.prototype.getBlockReward = function(height) {
   }
 
   // Subsidy is cut in half every 840000 blocks which will occur approximately every 4 years.
-  var subsidy = new BN(12.5 * 1e8);
+  var subsidy = new BN(12500 * 1e8);
   subsidy = subsidy.shrn(halvings);
 
   return parseInt(subsidy.toString(10));
