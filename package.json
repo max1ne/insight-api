@@ -80,8 +80,8 @@
     "lru-cache": "^4.0.1",
     "mongoose": "5.1.7",
     "morgan": "^1.7.0",
-    "bitcore-lib-zelcash": "git://github.com/TheTrunk/bitcore-lib-zelcash#safecoin",
-    "bitcore-message-zelcash": "git://github.com/TheTrunk/bitcore-message-zelcash#safecoin",
+    "bitcore-lib-zelcash": "git://github.com/TheTrunk/bitcore-lib-zelcash#anon",
+    "bitcore-message-zelcash": "git://github.com/TheTrunk/bitcore-message-zelcash#anon",
     "request": "^2.83.0"
   },
   "peerDependencies": {},
