@@ -1230,7 +1230,7 @@ StatisticService.prototype.getBlockRewardr = function (height) {
     // Mining slow start
     // The subsidy is ramped up linearly, skipping the middle payout of
     // MAX_SUBSIDY/2 to keep the monetary curve consistent with no slow start.
-    var subsidy = new BN(50 * 1e8)
+    var subsidy = new BN(50 * 1e8);
     subsidy = subsidy.shrn(halvings);
 
     return parseInt(subsidy.toString(10));
@@ -1255,7 +1255,7 @@ StatisticService.prototype.getPoolInfo = function (paddress) {
 StatisticService.prototype.getTotalSupply = function () {
     var blockHeight = this.node.services.bitcoind.height;
 
-    var supply = (new BigNumber(0)).plus((blockHeight) * 12.5).plus(7800000); //minus slowstart
+    var supply = (new BigNumber(0)).plus((blockHeight) * 50).plus(7800000);
 
     return supply;
 };
