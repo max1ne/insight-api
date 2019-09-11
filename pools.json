@@ -174,5 +174,12 @@
         "searchStrings": [
             "t1UKS3Pgwhovon1kPWCgpFbacsGJjb4keXM"
         ]
+    },
+    {
+        "poolName": "ZEL Labs",
+        "url": "https://zel.zellabs.net",
+        "searchStrings": [
+            "t1fMvBXaLzC9i6YKYnD3VCUZN2oifSsCZkx"
+        ]
     }
 ]
